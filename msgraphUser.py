@@ -6,14 +6,8 @@ import json
 #SCOPES = ['User.Read.All']
 SCOPES = ["https://graph.microsoft.com/.default"]
 
-upn='suadmin@2xy2fl.onmicrosoft.com'
-password='iKKRPXFaPthQh7D'
-
 # The App Registration's application (client) ID
 client_id = '12981ac8-3f9b-48b0-9839-918ecebbca70'
-
-# Client secret created under App Registration blade
-client_secret = 'e_r8Q~Maz-egB~Eq5uKAhEh4qzZc1sF-88yNqaWo'
 
 # Your Azure AD tenant ID
 tenant_id = 'ea7b03ca-00db-4c19-9b8c-6442ab16a46f'
