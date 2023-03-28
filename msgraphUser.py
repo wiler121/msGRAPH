@@ -7,12 +7,12 @@ import json
 SCOPES = ["https://graph.microsoft.com/.default"]
 
 # The App Registration's application (client) ID
-client_id = '12981ac8-3f9b-48b0-9839-918ecebbca70'
+client_id = 'x'
 
 # Your Azure AD tenant ID
-tenant_id = 'ea7b03ca-00db-4c19-9b8c-6442ab16a46f'
+tenant_id = 'x'
 
-ENDPOINT_URI = 'https://graph.microsoft.com/v1.0/'
+ENDPOINT_URI = 'https://graph.microsoft.com/beta/'
 
 app = PublicClientApplication(
     client_id=client_id,
@@ -70,5 +70,88 @@ def createNewUser(json):
     print(request.json())
 
 
+def listAllConfigs():
+    request = requests.get(url=ENDPOINT_URI+'/deviceManagement/configurationPolicies', headers=req_headers)
+    print(request)
+    print(json.dumps(request.json(), indent=5, ensure_ascii=False))
+
+
+def get_specific_config(config_id):
+    request = requests.get(url=ENDPOINT_URI+f'/deviceManagement/configurationPolicies/{config_id}', headers=req_headers)
+    print(request)
+    print(json.dumps(request.json(), indent=5, ensure_ascii=False))
+
+def get_specific_config_settings(config_id):
+    request = requests.get(url=ENDPOINT_URI+f'/deviceManagement/configurationPolicies/{config_id}/settings', headers=req_headers)
+    #print(request)
+    #print(json.dumps(request.json(), indent=5, ensure_ascii=False))
+    return request.json()['value']
+
+
+def create_specific_config(json):
+    request = requests.post(url=ENDPOINT_URI+f'/deviceManagement/configurationPolicies/', headers=req_headers, json=json)
+    print(request)
+    print(request.content)
+
+test_json = {
+     "@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/configurationPolicies/$entity",
+     "createdDateTime": "2023-03-28T12:13:13.4842787Z",
+     "creationSource": 'null',
+     "description": "",
+     "lastModifiedDateTime": "2023-03-28T12:13:13.4842787Z",
+     "name": "test2",
+     "platforms": "windows10",
+     "priorityMetaData": None,
+     "roleScopeTagIds": [
+          "0"
+     ],
+     "settingCount": 2,
+     "technologies": "mdm",
+     "id": "b553a081-4cce-4ef9-bda5-8f2df5172ca8",
+     "templateReference": {
+          "templateId": "",
+          "templateFamily": "none",
+          "templateDisplayName": 'null',
+          "templateDisplayVersion": 'null'
+     },
+"settings":  [
+                     {
+                         "id":  "0",
+                         "settingInstance":  {
+                                                 "@odata.type":  "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                 "settingDefinitionId":  "user_vendor_msft_policy_config_admx_controlpaneldisplay_cpl_personalization_enablescreensaver",
+                                                 "settingInstanceTemplateReference":  None,
+                                                 "choiceSettingValue":  {
+                                                                            "settingValueTemplateReference":  None,
+                                                                            "value":  "user_vendor_msft_policy_config_admx_controlpaneldisplay_cpl_personalization_enablescreensaver_1",
+                                                                            "children":  [
+
+                                                                                         ]
+                                                                        }
+                                             }
+                     },
+                     {
+                         "id":  "1",
+                         "settingInstance":  {
+                                                 "@odata.type":  "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                 "settingDefinitionId":  "user_vendor_msft_policy_config_admx_controlpaneldisplay_cpl_personalization_screensaverissecure",
+                                                 "settingInstanceTemplateReference":  None,
+                                                 "choiceSettingValue":  {
+                                                                            "settingValueTemplateReference":  None,
+                                                                            "value":  "user_vendor_msft_policy_config_admx_controlpaneldisplay_cpl_personalization_screensaverissecure_1",
+                                                                            "children":  [
+
+                                                                                         ]
+                                                                        }
+                                             }
+                     }
+                 ]
+}
 #createNewUser(user_json)
-listAllUsers()
+#listAllUsers()
+#listAllConfigs()
+get_specific_config('b553a081-4cce-4ef9-bda5-8f2df5172ca8')
+qwerty = get_specific_config_settings('b553a081-4cce-4ef9-bda5-8f2df5172ca8')
+print(json.dumps(qwerty, indent=5, ensure_ascii=False))
+
+create_specific_config(test_json)
